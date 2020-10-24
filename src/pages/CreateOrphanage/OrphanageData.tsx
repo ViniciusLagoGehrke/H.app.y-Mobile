@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ScrollView, View, StyleSheet, Switch, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { RectButton } from 'react-native-gesture-handler';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import api from '../../services/api';
 
@@ -21,7 +21,9 @@ export default function OrphanageData() {
   const [open_on_weekends, setOpenOnWeekends] = useState(true);
   const [images, setImages] = useState<string[]>([]);
 
+  const navigation = useNavigation();
   const route = useRoute();
+
   const params = route.params as OrphanageDataRouteParams;
 
   async function handleCreateOrphanage() {
@@ -47,7 +49,7 @@ export default function OrphanageData() {
 
     await api.post('orphanages', data);
 
-
+    navigation.navigate('OrphanagesMap');
   }
 
   async function handleSelectImages(){
